@@ -68,6 +68,10 @@ export default function NewStudentModal ({ open, onClose, onCreateNewStudent }) 
   const handleSubmit = (event) => {
     event.preventDefault();
     onCreateNewStudent?.({ name, course, state, city });
+    setName('');
+    setCourse('geography');
+    setState('sp');
+    setCity('Mogi das Cruzes');
     onClose();
   };
 
