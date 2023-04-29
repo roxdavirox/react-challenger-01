@@ -3,7 +3,7 @@ import { sample } from 'lodash';
 
 const cities = {
   'São Paulo': ['Mogi das Cruzes', 'Suzano', 'Poá', 'Guararema'],
-  'Rio de Janeiro': ['Angra dos Reis', 'Niteói', 'Itaboraí'],
+  'Rio de Janeiro': ['Angra dos Reis', 'Niterói', 'Itaboraí'],
   'Minas Gerais': ['Belo Horizonte', 'Monte Azul', 'Muzambinho']
 }
 

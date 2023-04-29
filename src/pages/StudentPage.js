@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { filter } from 'lodash';
+import { filter, random } from 'lodash';
 import { useState } from 'react';
 
 import {
@@ -25,7 +25,7 @@ import {
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 
-import { StudentListHead, StudentListToolbar } from '../sections/@dashboard/student';
+import { StudentListHead, StudentListToolbar, NewStudentModal } from '../sections/@dashboard/student';
 
 import STUDENTLIST from '../_mock/student';
 
@@ -67,6 +67,10 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function StudentPage() {
+  const [studentList, setStudentList] = useState(STUDENTLIST);
+
+  const [modalOpen, setModalOpen] = useState(false);
+
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -126,24 +130,42 @@ export default function StudentPage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - STUDENTLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - studentList.length) : 0;
 
-  const filteredStudents = applySortFilter(STUDENTLIST, getComparator(order, orderBy), filterName);
+  const filteredStudents = applySortFilter(studentList, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredStudents.length && !!filterName;
+
+  const handleCreateNewStudent = (newStudent) => {
+    const courses = {
+      'math': 'Matemática',
+      'letters': 'Letras',
+      'geography': 'Geografia'
+    }
+
+    setStudentList(prevStudentList => ([
+      ...prevStudentList,
+      {
+        ...newStudent,
+        course: courses[newStudent.course],
+        avatarUrl: `/assets/images/avatars/avatar_${random(1, 24)}.jpg`},
+    ]));
+    console.table(newStudent);
+  }
 
   return (
     <>
       <Helmet>
         <title> Ingressantes </title>
       </Helmet>
+      <NewStudentModal open={modalOpen} onClose={() => setModalOpen(false)} onCreateNewStudent={handleCreateNewStudent} />
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Ingressantes
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button onClick={() => setModalOpen(true)} variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             Novo Ingressante
           </Button>
         </Stack>
