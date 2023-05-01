@@ -7,7 +7,7 @@ Este projeto utiliza as seguintes tecnologias:
 - React
 - React Hook Form
 - React Input Mask
-- Bootstrap
+- Material-ui
 
 # Configuração
 Para configurar o projeto localmente, siga os seguintes passos:
